@@ -1,0 +1,28 @@
+.pane {
+  width: 640px;
+  height: 300px;
+  padding: 20px;
+  margin-bottom: 30px;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  animation: show-up 0.4s forwards ease-in;
+}
+
+@keyframes show-up {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.paneHeader {
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.paneDescription {
+  font-size: 15px;
+  color: #888;
+}

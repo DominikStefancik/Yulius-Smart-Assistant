@@ -1,0 +1,17 @@
+.status {
+  text-transform: uppercase;
+  color: #fff;
+  font-size: 13px;
+  z-index: 3;
+  position: absolute;
+  top: 110px;
+  right: 240px;
+  width: 140px;
+  height: 19px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+  background-color: #389e0d;
+  cursor: default;
+}
