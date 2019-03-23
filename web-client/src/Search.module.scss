@@ -1,0 +1,176 @@
+$animation-time: 0.3s;
+
+.search {
+  height: 250px;
+  background-color: #f9f9f9;
+  background-position: center center;
+  background-size: cover;
+  background-attachment: fixed;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-image: url("https://www.juliusbaer.com/fileadmin/_processed_/0/b/csm_JB_IMG_Places_353_BGL1_RGB_LO_721ab00129.jpg");
+
+  &::before {
+    content: "";
+  }
+}
+
+.animateSearch {
+  animation: search-animation $animation-time forwards ease-in;
+}
+
+.animateSearchBack {
+  animation: search-animation $animation-time backwards ease-in;
+}
+
+.animateInput {
+  animation: input-animation $animation-time forwards ease-in;
+}
+
+.animateInputBack {
+  animation: input-animation $animation-time backwards ease-in;
+}
+
+@keyframes search-animation {
+  0% {
+    height: 250px;
+  }
+  100% {
+    height: 615px;
+  }
+}
+
+@keyframes input-animation {
+  0% {
+    top: 155px;
+  }
+  100% {
+    top: 520px;
+  }
+}
+
+.wrapper {
+  position: relative;
+  width: 700px;
+}
+
+.person {
+  position: absolute;
+  top: -45px;
+  right: 260px;
+  opacity: 0.3;
+  width: 180px;
+  z-index: 1;
+}
+
+.bar {
+  position: absolute;
+  top: 155px;
+  height: 55px;
+  border-radius: 6px;
+  border: none;
+  width: 100%;
+  font-size: 18px;
+  font-family: Rubik;
+  outline: none;
+  padding: 0 20px;
+  z-index: 2;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.suggestions {
+  position: absolute;
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  border-radius: 6px;
+  padding: 10px 0 0;
+  top: 205px;
+  z-index: 1;
+}
+
+.animateSuggestions {
+  top: 570px;
+}
+
+.voice {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 50px;
+  right: 230px;
+  width: 50px;
+  height: 50px;
+  background-color: #000;
+  border-radius: 100%;
+  cursor: pointer;
+  z-index: 5;
+}
+
+.video {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 90px;
+  right: 180px;
+  width: 50px;
+  height: 50px;
+  background-color: #000;
+  border-radius: 100%;
+  cursor: pointer;
+  z-index: 5;
+}
+
+.searchIcon {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  right: 13px;
+  top: 168px;
+  z-index: 2;
+  cursor: pointer;
+}
+
+.microphoneIcon {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  right: 60px;
+  top: 168px;
+  z-index: 2;
+  cursor: pointer;
+}
+
+.animateIcons {
+  animation: icon-animation $animation-time forwards ease-in;
+}
+
+.animateIconsBack {
+  animation: icon-animation $animation-time backwards ease-in;
+}
+
+@keyframes icon-animation {
+  0% {
+    top: 168px;
+  }
+  100% {
+    top: 533px;
+  }
+}
+
+.arrowRight {
+  width: 24px;
+  height: 24px;
+  opacity: 0.15;
+}
+
+.panes {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
