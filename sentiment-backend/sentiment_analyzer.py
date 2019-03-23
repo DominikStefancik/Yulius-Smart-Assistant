@@ -9,8 +9,7 @@ from sklearn.preprocessing import LabelEncoder
 
 tf.logging.set_verbosity(tf.logging.ERROR)
 
-from flask import Flask
-from flask_restful import Resource, Api
+from flask import Flask, jsonify, request
 
 ###############################################################################
 
@@ -109,14 +108,13 @@ def get_sentiment(filename):
 ###############################################################################
 
 app = Flask(__name__)
-api = Api(app)
 
-class SentimentAnalyzer(Resource):
-    def get(self, data):
-        #TODO: save data to audio file
-        return {'Sentiment': get_sentiment(WAVE_OUTPUT_FILENAME)}
-
-api.add_resource(SentimentAnalyzer, '/')
+@app.route('/', methods=['GET', 'POST'])
+def home():
+    if request.method == 'POST':
+        return jsonify(Sentiment=get_sentiment(WAVE_OUTPUT_FILENAME))
+    elif request.method == 'GET':
+        return jsonify(Sentiment=get_sentiment(WAVE_OUTPUT_FILENAME))
 
 if __name__ == '__main__':
     app.run(debug=True)
