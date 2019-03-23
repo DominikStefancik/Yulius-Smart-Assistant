@@ -151,24 +151,6 @@ export default () => {
     fetch("http://127.0.0.1:5000/", { method: "POST", body: form });
   };
 
-  //   (
-  //   <form onSubmit={handleSubmit}>
-  //     <input
-  //       autoFocus
-  //       ref={inputNode}
-  //       className={classNames(
-  //         styles.bar,
-  //         showVideo === "show" && styles.animateInput,
-  //         showVideo === "disappear" && styles.animateInputBack
-  //       )}
-  //       placeholder="Type to search..."
-  //       value={input}
-  //       onKeyDown={handleKeyDown}
-  //       onChange={handleChange}
-  //     />
-  //   </form>
-  // );
-
   const renderMicrophoneIcon = () => (
     <img
       onClick={handleMicrophoneClick}

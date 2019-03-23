@@ -1,6 +1,7 @@
 $animation-time: 0.3s;
 
 .video {
+  position: relative;
   width: 240px;
   height: 135px;
   border-radius: 6px;
@@ -31,4 +32,8 @@ $animation-time: 0.3s;
     width: 640px;
     transform: translateX(0px);
   }
+}
+
+.video {
+  position: absolute;
 }
