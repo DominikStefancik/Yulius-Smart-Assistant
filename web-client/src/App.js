@@ -3,7 +3,7 @@ import "./App.css";
 import styles from "./App.module.scss";
 import Spinner from "./Spinner";
 import Search from "./Search";
-import panes from "./panes";
+import SpeechRecognition from "react-speech-recognition";
 
 const App = () => {
   const [loading, setLoading] = useState(true);

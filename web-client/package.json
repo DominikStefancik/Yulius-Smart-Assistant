@@ -10,6 +10,7 @@
     "react-dom": "^16.8.5",
     "react-mic": "^12.4.1",
     "react-scripts": "2.1.8",
+    "react-speech-recognition": "^1.1.0",
     "react-trend": "^1.2.4"
   },
   "scripts": {

@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
-import styles from "./Search.module.scss";
-import Status from "./Status";
-import VideoChat from "./VideoChat";
 import Fuse from "fuse.js";
 import classNames from "classnames";
+import { ReactMic } from "react-mic";
+import SpeechRecognition from "react-speech-recognition";
+
+import styles from "./Search.module.scss";
+
+import VideoChat from "./VideoChat";
+import Status from "./Status";
 import panes from "./panes";
 import Suggestion from "./Suggestion";
-import Voice from "./Voice";
 
 import person from "./person.png";
 import call from "./call.svg";
@@ -26,6 +29,35 @@ const fuseConfig = {
 };
 
 const fuse = new Fuse(panes, fuseConfig);
+let globalResetTranscript = null;
+
+const Form = props => {
+  props.recognition.lang = "en-US";
+  globalResetTranscript = props.resetTranscript;
+
+  useEffect(
+    () => () => {
+      globalResetTranscript = null;
+    },
+    []
+  );
+
+  return (
+    <form onSubmit={props.handleSubmit}>
+      <input
+        autoFocus
+        ref={props.inputNode}
+        className={props.className}
+        placeholder="Type to search..."
+        value={!props.enableRecognition ? props.input : props.transcript}
+        onKeyDown={props.handleKeyDown}
+        onChange={props.handleChange}
+      />
+    </form>
+  );
+};
+
+const FormWithSpeech = SpeechRecognition(Form);
 
 let handleClickRef = null;
 
@@ -38,6 +70,7 @@ export default () => {
   const [showVideo, setShowVideo] = useState("show");
   const [selected, setSelected] = useState(null);
   const [cursor, setCursor] = useState(0);
+  const [recording, setRecording] = useState(false);
   const [input, setInput] = useState("");
 
   const filteredBySelected = panes.filter(pane => pane.title === selected);
@@ -94,17 +127,89 @@ export default () => {
     }
   };
 
+  const handleChange = event => {
+    setInput(event.target.value);
+    if (event.target.value !== "") {
+      setShowSuggestions(true);
+    } else {
+      setShowSuggestions(false);
+    }
+  };
+
+  const handleMicrophoneClick = () => {
+    if (recording) {
+      setRecording(false);
+      globalResetTranscript();
+    } else {
+      setRecording(true);
+    }
+  };
+
   const sendData = data => {
     const form = new FormData();
     form.append("recording", data);
     fetch("https://wiki.epfl.ch/test.php", { method: "POST", body: form });
   };
 
-  console.log("->", showVideo);
+  //   (
+  //   <form onSubmit={handleSubmit}>
+  //     <input
+  //       autoFocus
+  //       ref={inputNode}
+  //       className={classNames(
+  //         styles.bar,
+  //         showVideo === "show" && styles.animateInput,
+  //         showVideo === "disappear" && styles.animateInputBack
+  //       )}
+  //       placeholder="Type to search..."
+  //       value={input}
+  //       onKeyDown={handleKeyDown}
+  //       onChange={handleChange}
+  //     />
+  //   </form>
+  // );
+
+  const renderMicrophoneIcon = () => (
+    <img
+      onClick={handleMicrophoneClick}
+      className={classNames(
+        styles.microphoneIcon,
+        showVideo === "show" && styles.animateIcons,
+        showVideo === "disappear" && styles.animateIconsBack
+      )}
+      style={{ opacity: recording ? 0.5 : 1 }}
+      src={microphone}
+      alt="microphone"
+    />
+  );
+
+  const renderSearchIcon = () => (
+    <img
+      className={classNames(
+        styles.searchIcon,
+        showVideo === "show" && styles.animateIcons,
+        showVideo === "disappear" && styles.animateIconsBack
+      )}
+      src={searchIcon}
+      alt="search"
+      onClick={handleSubmit}
+    />
+  );
+
+  const renderCameraIcon = () => (
+    <img
+      alt="call"
+      src={showVideo === "show" ? cross : camera}
+      style={
+        showVideo === "show"
+          ? { width: "24px", height: "24px" }
+          : { width: "30px", height: "30px" }
+      }
+    />
+  );
 
   return (
     <div>
-      <Voice onStop={sendData} />
       <div
         ref={searchNode}
         className={classNames(
@@ -113,49 +218,43 @@ export default () => {
           showVideo === "disappear" && styles.animateSearchBack
         )}
       >
-        <div className={styles.wrapper}>
+        <div
+          className={classNames(
+            styles.wrapper,
+            showVideo !== "show" && styles.micMoved
+          )}
+        >
           <img alt="person" src={person} className={styles.person} />
-          <form onSubmit={handleSubmit}>
-            <input
-              autoFocus
-              ref={inputNode}
-              className={classNames(
-                styles.bar,
-                showVideo === "show" && styles.animateInput,
-                showVideo === "disappear" && styles.animateInputBack
-              )}
-              placeholder="Type to search..."
-              value={input}
-              onKeyDown={handleKeyDown}
-              onChange={event => {
-                setInput(event.target.value);
-                if (event.target.value !== "") {
-                  setShowSuggestions(true);
-                } else {
-                  setShowSuggestions(false);
-                }
-              }}
-            />
-          </form>
-          <img
+          {recording && (
+            <div className={styles.mic}>
+              <ReactMic
+                record={recording}
+                className={styles.mic}
+                onStop={recordedBlob => {
+                  sendData(recordedBlob);
+                }}
+                strokeColor="#000"
+                backgroundColor="#666"
+              />
+              <div className={styles.arrowWrapper}>
+                <div className={styles.arrowDown} />
+              </div>
+            </div>
+          )}
+          <FormWithSpeech
+            handleSubmit={handleSubmit}
             className={classNames(
-              styles.microphoneIcon,
-              showVideo === "show" && styles.animateIcons,
-              showVideo === "disappear" && styles.animateIconsBack
+              styles.bar,
+              showVideo === "show" && styles.animateInput,
+              showVideo === "disappear" && styles.animateInputBack
             )}
-            src={microphone}
-            alt="microphone"
+            input={input}
+            handleKeyDown={handleKeyDown}
+            handleChange={handleChange}
+            enableRecognition={recording}
           />
-          <img
-            className={classNames(
-              styles.searchIcon,
-              showVideo === "show" && styles.animateIcons,
-              showVideo === "disappear" && styles.animateIconsBack
-            )}
-            src={searchIcon}
-            alt="search"
-          />
-
+          {renderMicrophoneIcon()}
+          {renderSearchIcon()}
           {showSuggestions && (
             <div
               ref={suggestionsNode}
@@ -175,9 +274,7 @@ export default () => {
               ))}
             </div>
           )}
-
           <Status />
-
           <div className={styles.voice}>
             <img
               alt="call"
@@ -188,23 +285,11 @@ export default () => {
           <div
             className={styles.video}
             onClick={() => {
-              console.log(
-                showVideo,
-                showVideo === "show" ? "disappear" : "show"
-              );
               setShowVideo(showVideo === "show" ? "disappear" : "show");
               setInput("");
             }}
           >
-            <img
-              alt="call"
-              src={showVideo === "show" ? cross : camera}
-              style={
-                showVideo === "show"
-                  ? { width: "24px", height: "24px" }
-                  : { width: "30px", height: "30px" }
-              }
-            />
+            {renderCameraIcon()}
           </div>
           {showVideo === "show" && <VideoChat />}
         </div>
