@@ -5,7 +5,7 @@ $animation-time: 0.3s;
   width: 240px;
   height: 135px;
   border-radius: 6px;
-  background-color: #000;
+  background-color: rgba(0, 0, 0, 0.2);
   transform: translateX(200px);
   opacity: 0;
   animation: video-animation $animation-time 0.2s forwards ease-in;
