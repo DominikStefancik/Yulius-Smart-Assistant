@@ -2,7 +2,7 @@ $animation-time: 0.3s;
 
 .search {
   height: 250px;
-  background-color: #f9f9f9;
+  background-color: #aaa;
   background-position: center center;
   background-size: cover;
   background-attachment: fixed;
@@ -10,7 +10,7 @@ $animation-time: 0.3s;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-image: url("https://www.juliusbaer.com/fileadmin/_processed_/0/b/csm_JB_IMG_Places_353_BGL1_RGB_LO_721ab00129.jpg");
+  // background-image: url("https://www.juliusbaer.com/fileadmin/_processed_/0/b/csm_JB_IMG_Places_353_BGL1_RGB_LO_721ab00129.jpg");
 
   &::before {
     content: "";
