@@ -24,7 +24,6 @@ export default [
       <div className={styles.pane}>
         <div className={styles.paneHeader}>{pane.title}</div>
         <div className={styles.paneDescription}>{pane.description}</div>
-        <Trends />
       </div>
     )
   },
@@ -47,7 +46,6 @@ export default [
       <div className={styles.pane}>
         <div className={styles.paneHeader}>{pane.title}</div>
         <div className={styles.paneDescription}>{pane.description}</div>
-        <Trends />
       </div>
     )
   }

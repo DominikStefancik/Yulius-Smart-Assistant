@@ -178,6 +178,7 @@ export default () => {
     //   1000
     // );
     setSentiment("male angry");
+    setTimeout(() => setSentiment(null), 5000);
   };
 
   const renderMicrophoneIcon = () => (
