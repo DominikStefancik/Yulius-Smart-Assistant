@@ -10,7 +10,7 @@ $animation-time: 0.3s;
   display: flex;
   flex-direction: column;
   align-items: center;
-  // background-image: url("https://www.juliusbaer.com/fileadmin/_processed_/0/b/csm_JB_IMG_Places_353_BGL1_RGB_LO_721ab00129.jpg");
+  background-image: url("https://www.juliusbaer.com/fileadmin/_processed_/0/b/csm_JB_IMG_Places_353_BGL1_RGB_LO_721ab00129.jpg");
 
   &::before {
     content: "";
@@ -235,11 +235,12 @@ $animation-time: 0.3s;
 }
 
 .sentimentBox {
+  font-size: 24px;
   cursor: default;
   position: absolute;
   top: 20px;
   left: 20px;
-  background-color: #666;
+  background-color: rgb(153, 88, 62);
   color: #fff;
   padding: 20px 25px;
   border-radius: 6px;
