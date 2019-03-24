@@ -169,14 +169,15 @@ export default () => {
     const form = new FormData();
     form.append("recording", data);
 
-    await wait(500);
-    // const response = timeout(
-    //   fetch("http://localhost:5000", {
-    //     method: "POST",
-    //     body: form
-    //   }),
-    //   1000
-    // );
+    const response = await timeout(
+      fetch("http://localhost:5000", {
+        method: "POST",
+        body: form
+      }),
+      1000
+    );
+    const result = await response.json();
+    console.log("res", result);
     setSentiment("male angry");
     setTimeout(() => setSentiment(null), 5000);
   };

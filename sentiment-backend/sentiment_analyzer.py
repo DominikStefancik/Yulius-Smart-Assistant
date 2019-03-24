@@ -10,6 +10,7 @@ from sklearn.preprocessing import LabelEncoder
 tf.logging.set_verbosity(tf.logging.ERROR)
 
 from flask import Flask, jsonify, request
+from flask_cors import CORS, cross_origin
 
 ###############################################################################
 
@@ -108,6 +109,8 @@ def get_sentiment(filename):
 ###############################################################################
 
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
