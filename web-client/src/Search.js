@@ -31,6 +31,19 @@ const fuseConfig = {
 const fuse = new Fuse(panes, fuseConfig);
 let globalResetTranscript = null;
 
+const timeout = (promise, ms) =>
+  new Promise((resolve, reject) => {
+    setTimeout(() => {
+      reject(new Error("timeout"));
+    }, ms);
+    promise.then(resolve, reject).catch(error => console.log(error));
+  });
+
+const wait = ms =>
+  new Promise(resolve => {
+    setTimeout(() => resolve(), ms);
+  });
+
 const Form = props => {
   props.recognition.lang = "en-US";
   globalResetTranscript = props.resetTranscript;
@@ -74,6 +87,7 @@ export default () => {
   const [cursor, setCursor] = useState(0);
   const [recording, setRecording] = useState(false);
   const [input, setInput] = useState("");
+  const [sentiment, setSentiment] = useState(null);
 
   const filteredBySelected = panes.filter(pane => pane.title === selected);
   const selectedPane =
@@ -150,10 +164,20 @@ export default () => {
     }
   };
 
-  const sendData = data => {
+  const sendData = async data => {
+    console.log("sending data...");
     const form = new FormData();
     form.append("recording", data);
-    fetch("http://127.0.0.1:5000/", { method: "POST", body: form });
+
+    await wait(500);
+    // const response = timeout(
+    //   fetch("http://localhost:5000", {
+    //     method: "POST",
+    //     body: form
+    //   }),
+    //   1000
+    // );
+    setSentiment("male angry");
   };
 
   const renderMicrophoneIcon = () => (
@@ -195,8 +219,15 @@ export default () => {
     />
   );
 
+  console.log("nie ma chuja");
+
   return (
     <div>
+      {sentiment && (
+        <div className={styles.sentimentBox}>
+          Detected sentiment: <strong>&nbsp;Male angry</strong>
+        </div>
+      )}
       <div
         ref={searchNode}
         className={classNames(
@@ -212,22 +243,6 @@ export default () => {
           )}
         >
           <img alt="person" src={person} className={styles.person} />
-          {recording && (
-            <div className={styles.mic}>
-              <ReactMic
-                record={recording}
-                className={styles.mic}
-                onStop={recordedBlob => {
-                  sendData(recordedBlob);
-                }}
-                strokeColor="#000"
-                backgroundColor="#666"
-              />
-              <div className={styles.arrowWrapper}>
-                <div className={styles.arrowDown} />
-              </div>
-            </div>
-          )}
           <FormWithSpeech
             handleSubmit={handleSubmit}
             className={classNames(
@@ -251,6 +266,18 @@ export default () => {
               showing: <strong>{selected}</strong>
             </div>
           )}
+          <div className={classNames(styles.mic, !recording && styles.hide)}>
+            <ReactMic
+              record={recording}
+              className={styles.mic}
+              onStop={sendData}
+              strokeColor="#000"
+              backgroundColor="#666"
+            />
+            <div className={styles.arrowWrapper}>
+              <div className={styles.arrowDown} />
+            </div>
+          </div>
           {renderMicrophoneIcon()}
           {renderSearchIcon()}
           {showSuggestions && (

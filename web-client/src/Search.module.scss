@@ -233,3 +233,29 @@ $animation-time: 0.3s;
 .selectedAnimated {
   top: 585px;
 }
+
+.sentimentBox {
+  cursor: default;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: #666;
+  color: #fff;
+  padding: 20px 25px;
+  border-radius: 6px;
+  opacity: 0;
+  animation: appear-animation 0.5s forwards 0.3s ease-in;
+}
+
+@keyframes appear-animation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.hide {
+  visibility: hidden;
+}
