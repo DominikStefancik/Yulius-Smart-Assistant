@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 from sklearn.preprocessing import LabelEncoder
+from keras import backend as K
 
 tf.logging.set_verbosity(tf.logging.ERROR)
 
@@ -101,7 +102,7 @@ def get_sentiment(filename):
 
     livepredictions = [LABEL_ENCODER[k] for k in liveabc.tolist()]
 
-    print(livepredictions)
+    K.clear_session()
 
     return livepredictions[0]
 
@@ -112,6 +113,7 @@ app = Flask(__name__)
 @app.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'POST':
+        recording = request.form['recording']
         return jsonify(Sentiment=get_sentiment(WAVE_OUTPUT_FILENAME))
     elif request.method == 'GET':
         return jsonify(Sentiment=get_sentiment(WAVE_OUTPUT_FILENAME))
