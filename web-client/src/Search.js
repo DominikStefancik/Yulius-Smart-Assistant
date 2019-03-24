@@ -165,7 +165,6 @@ export default () => {
   };
 
   const sendData = async data => {
-    console.log("sending data...");
     const form = new FormData();
     form.append("recording", data);
 
@@ -177,8 +176,7 @@ export default () => {
       1000
     );
     const result = await response.json();
-    console.log("res", result);
-    setSentiment("male angry");
+    setSentiment(result.Sentiment);
     setTimeout(() => setSentiment(null), 5000);
   };
 
@@ -225,7 +223,9 @@ export default () => {
     <div>
       {sentiment && (
         <div className={styles.sentimentBox}>
-          Detected sentiment: <strong>&nbsp;Male angry</strong>
+          <span>
+            Detected sentiment: <strong>&nbsp;Male angry 😡</strong>
+          </span>
         </div>
       )}
       <div
