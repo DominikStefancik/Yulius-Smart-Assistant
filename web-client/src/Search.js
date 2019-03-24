@@ -243,7 +243,10 @@ export default () => {
           />
           {selected && (
             <div
-              className={classNames(styles.selected, styles.selectedAnimated)}
+              className={classNames(
+                styles.selected,
+                showVideo === "show" && styles.selectedAnimated
+              )}
             >
               showing: <strong>{selected}</strong>
             </div>

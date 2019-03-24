@@ -6,7 +6,7 @@ import tomek from "./tomek.mp4";
 export default () => (
   <div className={styles.wrapper}>
     <div className={styles.video} />
-    <video autoPlay muted className={styles.video}>
+    <video controls className={styles.video}>
       <source src={tomek} type="video/mp4" />
     </video>
   </div>
