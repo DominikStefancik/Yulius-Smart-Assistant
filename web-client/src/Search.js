@@ -42,6 +42,8 @@ const Form = props => {
     []
   );
 
+  if (props.enableRecognition) props.setInput(props.transcript);
+
   return (
     <form onSubmit={props.handleSubmit}>
       <input
@@ -138,9 +140,12 @@ export default () => {
 
   const handleMicrophoneClick = () => {
     if (recording) {
-      setRecording(false);
       globalResetTranscript();
+      setRecording(false);
+      setInput("");
+      setSelected(results[cursor].title);
     } else {
+      globalResetTranscript();
       setRecording(true);
     }
   };
@@ -234,7 +239,15 @@ export default () => {
             handleKeyDown={handleKeyDown}
             handleChange={handleChange}
             enableRecognition={recording}
+            setInput={setInput}
           />
+          {selected && (
+            <div
+              className={classNames(styles.selected, styles.selectedAnimated)}
+            >
+              showing: <strong>{selected}</strong>
+            </div>
+          )}
           {renderMicrophoneIcon()}
           {renderSearchIcon()}
           {showSuggestions && (
