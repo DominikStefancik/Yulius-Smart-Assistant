@@ -219,8 +219,6 @@ export default () => {
     />
   );
 
-  console.log("nie ma chuja");
-
   return (
     <div>
       {sentiment && (
